@@ -1044,7 +1044,7 @@ function FormacionesPage() {
       ) : (
         <div className="space-y-3">
           {trainings.map((t) => (
-            <div key={t.id} className="bg-card border border-border rounded-lg p-4 group hover:border-emerald-500/30 transition-all">
+            <div key={t.id} className="bg-card border border-border rounded-lg p-4 hover:border-emerald-500/30 transition-all">
               <div className="flex items-start justify-between flex-wrap gap-2">
                 <div>
                   <p className="font-medium">{t.employee_name || "Sin nombre"}</p>
@@ -1057,7 +1057,7 @@ function FormacionesPage() {
                   {(user?.role === "admin" || t.coordinator_id === user?.id) && (
                     <button 
                       onClick={() => handleDelete(t.id)} 
-                      className="p-2 hover:bg-destructive/10 text-destructive rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="p-2 hover:bg-destructive/10 text-destructive rounded-lg transition-all"
                       title="Eliminar formación"
                       data-testid={`delete-training-${t.id}`}
                     >

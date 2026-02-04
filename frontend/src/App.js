@@ -1240,15 +1240,13 @@ function AgendaPage() {
                       {new Date(s.scheduled_date + "T00:00:00").toLocaleDateString("es-ES", { weekday: "short", day: "numeric", month: "short" })}
                     </span>
                     {!s.completed && (
-                      <>
-                        <button onClick={() => handleComplete(s.id)} className="p-2 hover:bg-emerald-500/10 text-emerald-500 rounded-lg" title="Marcar completada">
-                          <Check size={16} />
-                        </button>
-                        <button onClick={() => handleDelete(s.id)} className="p-2 hover:bg-destructive/10 text-destructive rounded-lg" title="Cancelar">
-                          <Trash2 size={16} />
-                        </button>
-                      </>
+                      <button onClick={() => handleComplete(s.id)} className="p-2 hover:bg-emerald-500/10 text-emerald-500 rounded-lg" title="Marcar completada">
+                        <Check size={16} />
+                      </button>
                     )}
+                    <button onClick={() => handleDelete(s.id)} className="p-2 hover:bg-destructive/10 text-destructive rounded-lg" title="Eliminar">
+                      <Trash2 size={16} />
+                    </button>
                   </div>
                 </div>
                 {s.notes && <p className="text-sm text-muted-foreground mt-2">{s.notes}</p>}

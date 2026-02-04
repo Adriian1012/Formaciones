@@ -563,6 +563,7 @@ function SalonesPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingSalon, setEditingSalon] = useState(null);
   const [formData, setFormData] = useState({ name: "", address: "", city: "Murcia" });
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   const fetchSalones = async () => {
@@ -614,6 +615,12 @@ function SalonesPage() {
     setModalOpen(true);
   };
 
+  const filteredSalones = salones.filter((s) => 
+    s.name.toLowerCase().includes(search.toLowerCase()) ||
+    s.address?.toLowerCase().includes(search.toLowerCase()) ||
+    s.city?.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div data-testid="salones-page">
       <PageHeader
@@ -625,6 +632,18 @@ function SalonesPage() {
           </Button>
         )}
       />
+
+      <div className="relative mb-6">
+        <Search size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+        <input
+          type="text"
+          placeholder="Buscar salón por nombre, dirección o ciudad..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full h-12 pl-10 pr-4 bg-background border border-input rounded-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+          data-testid="search-salones"
+        />
+      </div>
 
       {loading ? (
         <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" /></div>

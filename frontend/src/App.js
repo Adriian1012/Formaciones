@@ -647,16 +647,16 @@ function SalonesPage() {
 
       {loading ? (
         <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" /></div>
-      ) : salones.length === 0 ? (
+      ) : filteredSalones.length === 0 ? (
         <EmptyState
           icon={Building2}
-          title="Sin salones"
-          description="Aún no hay salones registrados"
-          action={user?.role === "admin" && <Button onClick={() => setModalOpen(true)}><Plus size={20} /> Crear Salón</Button>}
+          title={search ? "Sin resultados" : "Sin salones"}
+          description={search ? "No se encontraron salones con esa búsqueda" : "Aún no hay salones registrados"}
+          action={!search && user?.role === "admin" && <Button onClick={() => setModalOpen(true)}><Plus size={20} /> Crear Salón</Button>}
         />
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {salones.map((salon) => (
+          {filteredSalones.map((salon) => (
             <div
               key={salon.id}
               className="bg-card border border-border rounded-lg p-5 hover:border-emerald-500/50 transition-all cursor-pointer group"

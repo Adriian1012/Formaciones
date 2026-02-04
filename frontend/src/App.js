@@ -390,7 +390,7 @@ function LoginPage() {
       
       <div className="relative w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="font-heading text-4xl font-bold text-emerald-500 uppercase tracking-tight">FormaSalones</h1>
+          <h1 className="font-heading text-4xl font-bold text-emerald-500 uppercase tracking-tight">Formaciones Versus</h1>
           <p className="text-muted-foreground mt-2">Sistema de Gestión de Formación</p>
         </div>
 

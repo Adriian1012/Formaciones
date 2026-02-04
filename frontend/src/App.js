@@ -199,7 +199,7 @@ function PageHeader({ title, subtitle, action }) {
   );
 }
 
-function StatCard({ icon: Icon, label, value, trend, color = "emerald" }) {
+function StatCard({ icon: Icon, label, value, trend, color = "emerald", onClick }) {
   const colors = {
     emerald: "text-emerald-500 bg-emerald-500/10 border-emerald-500/30",
     blue: "text-blue-500 bg-blue-500/10 border-blue-500/30",
@@ -208,7 +208,10 @@ function StatCard({ icon: Icon, label, value, trend, color = "emerald" }) {
   };
 
   return (
-    <div className="bg-card border border-border rounded-lg p-5 hover:border-emerald-500/50 transition-all">
+    <div 
+      className={`bg-card border border-border rounded-lg p-5 hover:border-emerald-500/50 transition-all ${onClick ? "cursor-pointer" : ""}`}
+      onClick={onClick}
+    >
       <div className="flex items-start justify-between">
         <div className={`p-2 rounded-lg ${colors[color]}`}>
           <Icon size={20} />

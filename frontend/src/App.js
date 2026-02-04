@@ -493,10 +493,10 @@ function DashboardPage() {
       />
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={Users} label="Empleados" value={stats?.total_employees || 0} color="emerald" />
-        <StatCard icon={GraduationCap} label="Formaciones" value={stats?.total_trainings || 0} color="blue" />
-        <StatCard icon={Calendar} label="Este Mes" value={stats?.trainings_this_month || 0} trend="+12%" color="amber" />
-        <StatCard icon={Clock} label="Programadas" value={stats?.upcoming_trainings || 0} color="slate" />
+        <StatCard icon={Users} label="Empleados" value={stats?.total_employees || 0} color="emerald" onClick={() => navigate("/empleados")} />
+        <StatCard icon={GraduationCap} label="Formaciones" value={stats?.total_trainings || 0} color="blue" onClick={() => navigate("/formaciones")} />
+        <StatCard icon={Calendar} label="Este Mes" value={stats?.trainings_this_month || 0} color="amber" onClick={() => navigate("/reportes")} />
+        <StatCard icon={Clock} label="Programadas" value={stats?.upcoming_trainings || 0} color="slate" onClick={() => navigate("/agenda")} />
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">

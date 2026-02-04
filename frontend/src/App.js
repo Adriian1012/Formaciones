@@ -974,6 +974,7 @@ function FormacionesPage() {
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState({ employee_id: "", training_type_id: "", notes: "", level_after: "" });
+  const { user } = useAuth();
 
   const fetchData = async () => {
     try {
@@ -1007,6 +1008,17 @@ function FormacionesPage() {
     }
   };
 
+  const handleDelete = async (id) => {
+    if (!window.confirm("¿Eliminar esta formación?")) return;
+    try {
+      await api.delete(`/trainings/${id}`);
+      toast.success("Formación eliminada");
+      fetchData();
+    } catch (err) {
+      toast.error(err.response?.data?.detail || "Error al eliminar");
+    }
+  };
+
   return (
     <div data-testid="formaciones-page">
       <PageHeader
@@ -1032,18 +1044,30 @@ function FormacionesPage() {
       ) : (
         <div className="space-y-3">
           {trainings.map((t) => (
-            <div key={t.id} className="bg-card border border-border rounded-lg p-4">
+            <div key={t.id} className="bg-card border border-border rounded-lg p-4 group hover:border-emerald-500/30 transition-all">
               <div className="flex items-start justify-between flex-wrap gap-2">
                 <div>
-                  <p className="font-medium">{t.employee_name}</p>
-                  <p className="text-sm text-emerald-500">{t.training_type_name}</p>
+                  <p className="font-medium">{t.employee_name || "Sin nombre"}</p>
+                  <p className="text-sm text-emerald-500">{t.training_type_name || "Sin tipo"}</p>
                 </div>
-                <span className="text-sm text-muted-foreground">
-                  {new Date(t.date).toLocaleDateString("es-ES", { day: "numeric", month: "short", year: "numeric" })}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">
+                    {new Date(t.date).toLocaleDateString("es-ES", { day: "numeric", month: "short", year: "numeric" })}
+                  </span>
+                  {(user?.role === "admin" || t.coordinator_id === user?.id) && (
+                    <button 
+                      onClick={() => handleDelete(t.id)} 
+                      className="p-2 hover:bg-destructive/10 text-destructive rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                      title="Eliminar formación"
+                      data-testid={`delete-training-${t.id}`}
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  )}
+                </div>
               </div>
               <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
-                <span>Por: {t.coordinator_name}</span>
+                <span>Por: {t.coordinator_name || "Desconocido"}</span>
                 {t.level_before !== t.level_after && (
                   <span className="flex items-center gap-1">
                     <LevelBadge level={t.level_before} />

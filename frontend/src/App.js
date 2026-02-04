@@ -148,14 +148,16 @@ function Sidebar() {
         </button>
       </div>
       
-      <nav className="flex-1 p-2 space-y-1">
+      <nav className="flex-1 p-2 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path || (item.path !== "/" && location.pathname.startsWith(item.path));
           return (
             <button
+              type="button"
               key={item.path}
-              onClick={() => navigate(item.path)}
-              className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg transition-all ${
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigate(item.path); }}
+              data-testid={`sidebar-${item.path.replace('/', '') || 'home'}`}
+              className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg transition-all cursor-pointer select-none ${
                 isActive ? "bg-emerald-500/10 text-emerald-500 border border-emerald-500/30" : "text-muted-foreground hover:bg-accent hover:text-foreground"
               }`}
             >

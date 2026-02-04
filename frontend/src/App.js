@@ -141,7 +141,7 @@ function Sidebar() {
     <aside className={`hidden md:flex flex-col bg-card border-r border-border h-screen sticky top-0 transition-all duration-300 ${collapsed ? "w-16" : "w-64"}`}>
       <div className="p-4 border-b border-border flex items-center justify-between">
         {!collapsed && (
-          <h1 className="font-heading text-lg font-bold text-emerald-500 uppercase tracking-tight">FormaSalones</h1>
+          <h1 className="font-heading text-lg font-bold text-emerald-500 uppercase tracking-tight">Formaciones Versus</h1>
         )}
         <button onClick={() => setCollapsed(!collapsed)} className="p-2 hover:bg-accent rounded-lg">
           {collapsed ? <ChevronRight size={20} /> : <Menu size={20} />}

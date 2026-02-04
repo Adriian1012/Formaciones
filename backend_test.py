@@ -71,76 +71,38 @@ class FormacionSalonesAPITester:
         return success1 and success2
 
     def test_user_registration_and_login(self):
-        """Test user registration and login"""
-        print("\n=== USER REGISTRATION & LOGIN TESTS ===")
+        """Test user registration and login with existing admin"""
+        print("\n=== USER LOGIN TESTS (Using existing admin) ===")
         
-        # Test admin registration (first user)
-        admin_data = {
-            "name": "Admin Test",
-            "email": f"admin_{datetime.now().strftime('%H%M%S')}@test.com",
-            "password": "AdminPass123!"
+        # Test login with existing admin credentials
+        admin_credentials = {
+            "email": "juan@admin.com",
+            "password": "admin123"
         }
         
-        success, response = self.run_test(
-            "Admin registration (first user)",
-            "POST",
-            "auth/register",
-            200,
-            data=admin_data
-        )
-        
-        if success and 'token' in response:
-            self.admin_token = response['token']
-            self.created_ids['admin_id'] = response['user']['id']
-            print(f"   Admin role: {response['user']['role']}")
-            
-            # Verify admin role
-            if response['user']['role'] != 'admin':
-                print("❌ First user should be admin")
-                return False
-        else:
-            print("❌ Admin registration failed")
-            return False
-
-        # Test coordinator registration (second user)
-        coord_data = {
-            "name": "Coordinator Test",
-            "email": f"coord_{datetime.now().strftime('%H%M%S')}@test.com",
-            "password": "CoordPass123!"
-        }
-        
-        success, response = self.run_test(
-            "Coordinator registration",
-            "POST",
-            "auth/register",
-            200,
-            data=coord_data
-        )
-        
-        if success and 'token' in response:
-            self.coordinator_token = response['token']
-            self.created_ids['coordinator_id'] = response['user']['id']
-            print(f"   Coordinator role: {response['user']['role']}")
-            
-            # Verify coordinator role
-            if response['user']['role'] != 'coordinator':
-                print("❌ Second user should be coordinator")
-                return False
-        else:
-            print("❌ Coordinator registration failed")
-            return False
-
-        # Test login with admin credentials
         login_success, login_response = self.run_test(
-            "Admin login",
+            "Admin login (existing user)",
             "POST",
             "auth/login",
             200,
-            data={"email": admin_data["email"], "password": admin_data["password"]}
+            data=admin_credentials
         )
+        
+        if login_success and 'token' in login_response:
+            self.admin_token = login_response['token']
+            self.created_ids['admin_id'] = login_response['user']['id']
+            print(f"   Admin role: {login_response['user']['role']}")
+            
+            # Verify admin role
+            if login_response['user']['role'] != 'admin':
+                print("❌ User should be admin")
+                return False
+        else:
+            print("❌ Admin login failed")
+            return False
 
         # Test /auth/me endpoint
-        me_success, _ = self.run_test(
+        me_success, me_response = self.run_test(
             "Get current user info",
             "GET",
             "auth/me",
@@ -148,7 +110,38 @@ class FormacionSalonesAPITester:
             token=self.admin_token
         )
 
-        return success and login_success and me_success
+        if me_success:
+            print(f"   Current user: {me_response.get('name', 'N/A')} ({me_response.get('email', 'N/A')})")
+
+        # Test coordinator registration (new user should become coordinator)
+        coord_data = {
+            "name": "Coordinator Test",
+            "email": f"coord_{datetime.now().strftime('%H%M%S')}@test.com",
+            "password": "CoordPass123!"
+        }
+        
+        coord_success, coord_response = self.run_test(
+            "Coordinator registration (new user)",
+            "POST",
+            "auth/register",
+            200,
+            data=coord_data
+        )
+        
+        if coord_success and 'token' in coord_response:
+            self.coordinator_token = coord_response['token']
+            self.created_ids['coordinator_id'] = coord_response['user']['id']
+            print(f"   Coordinator role: {coord_response['user']['role']}")
+            
+            # Verify coordinator role
+            if coord_response['user']['role'] != 'coordinator':
+                print("❌ New user should be coordinator")
+                return False
+        else:
+            print("❌ Coordinator registration failed")
+            return False
+
+        return login_success and me_success and coord_success
 
     def test_salon_management(self):
         """Test salon CRUD operations"""

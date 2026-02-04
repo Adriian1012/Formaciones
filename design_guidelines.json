@@ -1,0 +1,133 @@
+{
+  "project_name": "BettingHall_Training_App",
+  "design_philosophy": {
+    "archetype": "The Performance Pro",
+    "core_values": ["Tactical Minimalism", "Data Clarity", "Mobile-First Efficiency"],
+    "vibe": "Command-center focus. High contrast, athletic, professional."
+  },
+  "typography": {
+    "font_family": {
+      "headings": "Barlow Condensed, sans-serif",
+      "body": "Inter, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    },
+    "import_url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap",
+    "usage_rules": {
+      "headings": "Uppercase, tracking-tight, font-bold (600/700). Use for Page Titles and KPI values.",
+      "body": "Regular (400) or Medium (500). High legibility. Use for lists and form labels.",
+      "overline": "Uppercase, tracking-widest, text-xs, font-medium. Use for section labels."
+    }
+  },
+  "colors": {
+    "theme_strategy": "Dark Mode Default (Betting Hall Ambience)",
+    "palette": {
+      "primary": {
+        "name": "Emerald Bet",
+        "hex": "#10B981",
+        "tailwind": "bg-emerald-500",
+        "usage": "Primary Actions (Save, Start, Confirm), Success States"
+      },
+      "secondary": {
+        "name": "Slate Tactical",
+        "hex": "#475569",
+        "tailwind": "bg-slate-600",
+        "usage": "Secondary Actions, Inactive States"
+      },
+      "background": {
+        "dark": "#020617",
+        "light": "#F8FAFC",
+        "card_dark": "#0F172A",
+        "card_light": "#FFFFFF"
+      },
+      "accent": {
+        "warning": "#F59E0B",
+        "error": "#EF4444",
+        "info": "#3B82F6"
+      }
+    },
+    "gradients": {
+      "hero_glow": "radial-gradient(circle at top center, rgba(16, 185, 129, 0.15) 0%, rgba(2, 6, 23, 0) 70%)"
+    }
+  },
+  "layout": {
+    "mobile_first_strategy": {
+      "navigation": "Bottom Tab Bar (Fixed) for Mobile. Sidebar for Desktop.",
+      "containers": "Full width on mobile with p-4 padding. Max-width-5xl centered on desktop.",
+      "touch_targets": "Minimum 44px height for all interactive elements."
+    },
+    "grid_system": {
+      "dashboard": "grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4",
+      "form": "grid-cols-1 gap-6"
+    },
+    "spacing": {
+      "section_gap": "py-8",
+      "element_gap": "gap-4",
+      "internal_padding": "p-5"
+    }
+  },
+  "components": {
+    "buttons": {
+      "style": "Sharp corners (rounded-sm) or Pill (rounded-full). High contrast.",
+      "mobile": "w-full text-lg font-medium h-12",
+      "desktop": "w-auto px-8 h-10"
+    },
+    "cards": {
+      "style": "Grid Border Style. 1px border (border-slate-800). No shadow in dark mode. Subtle shadow in light mode.",
+      "interaction": "Active border color change on hover."
+    },
+    "inputs": {
+      "style": "h-12 bg-background border-input focus:ring-2 focus:ring-primary focus:border-transparent",
+      "labels": "text-sm font-medium text-muted-foreground mb-1.5 block"
+    },
+    "navigation": {
+      "bottom_bar": "Fixed bottom, backdrop-blur-xl bg-background/80 border-t border-border. Icons + Labels (text-[10px])."
+    }
+  },
+  "visual_enhancers": {
+    "textures": "Subtle noise overlay on background (opacity 0.03).",
+    "borders": "1px solid borders with 10% opacity for structure.",
+    "shadows": "Glow effects for primary actions: shadow-[0_0_20px_rgba(16,185,129,0.3)]."
+  },
+  "motion": {
+    "page_transition": "Slide In/Out (X-axis). Duration 0.3s ease-out.",
+    "micro_interactions": "Scale down (0.98) on button press.",
+    "list_entrance": "Staggered fade-in for list items."
+  },
+  "image_urls": {
+    "login_background": {
+      "url": "https://images.unsplash.com/photo-1704162634298-b9d3f5ca0c08?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "desc": "Moody betting hall / bowling alley with LED lights. Use with heavy dark overlay."
+    },
+    "training_hero": {
+      "url": "https://images.unsplash.com/flagged/photo-1576485436509-a7d286952b65?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "desc": "Team workshop setting. Use for 'Training' section headers."
+    },
+    "manager_profile": {
+      "url": "https://images.unsplash.com/photo-1663767116625-b178b1f1376f?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "desc": "Professional manager at desk. Placeholder for user profile."
+    }
+  },
+  "instructions_to_main_agent": {
+    "1": "Implement the 'Performance Pro' theme immediately. Set body background to dark (#020617) by default.",
+    "2": "Use 'Barlow Condensed' for all headings (h1-h6) and KPI numbers. Use 'Inter' for everything else.",
+    "3": "Build the 'Bottom Navigation' component first. It is the core of the mobile experience.",
+    "4": "For the Dashboard: Use a 'Bento Grid' layout. Top card: 'My Progress'. Middle: 'Upcoming Training'. Bottom: 'Quick Stats'.",
+    "5": "Forms: Use Shadcn Form + React Hook Form. Ensure inputs are 48px height (h-12) for touch accessibility.",
+    "6": "Charts: Use Recharts (via Shadcn Charts) with the defined palette (Emerald, Slate, Amber).",
+    "7": "Login Page: Use the 'login_background' image with a heavy black gradient overlay (bg-gradient-to-t from-background to-transparent).",
+    "8": "Ensure all interactive elements have `data-testid` attributes."
+  },
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
+    "Don't make generic centered layouts. Use grids and asymmetry.",
+    "Create depth through layered design elements with z-index hierarchy.",
+    "Use glass-morphism effects with backdrop filters (12-24px blur) for overlays/modals.",
+    "You MUST NOT apply universal transition (transition: all).",
+    "You MUST NOT center align the app container.",
+    "Always use modern button styles (pill or sharp).",
+    "NEVER use AI assistant Emoji characters.",
+    "Every interaction needs micro-animations.",
+    "Use 2-3x more spacing than feels comfortable.",
+    "Use 'sonner' for toasts."
+  ]
+}

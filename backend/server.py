@@ -568,6 +568,30 @@ async def get_employee_training_history(employee_id: str, user: dict = Depends(g
     
     return [TrainingResponse(**t) for t in trainings]
 
+@api_router.delete("/trainings/{training_id}", response_model=dict)
+async def delete_training(training_id: str, user: dict = Depends(get_current_user)):
+    # Get training to update employee count
+    training = await db.trainings.find_one({"id": training_id}, {"_id": 0})
+    if not training:
+        raise HTTPException(status_code=404, detail="Formación no encontrada")
+    
+    # Only allow deletion by the coordinator who created it or admin
+    if user["role"] != "admin" and training["coordinator_id"] != user["id"]:
+        raise HTTPException(status_code=403, detail="No tienes permiso para eliminar esta formación")
+    
+    # Delete training
+    result = await db.trainings.delete_one({"id": training_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Formación no encontrada")
+    
+    # Update employee training count
+    await db.employees.update_one(
+        {"id": training["employee_id"]},
+        {"$inc": {"trainings_count": -1}}
+    )
+    
+    return {"message": "Formación eliminada"}
+
 # ============== SCHEDULED TRAININGS ROUTES ==============
 
 @api_router.post("/scheduled-trainings", response_model=ScheduledTrainingResponse)

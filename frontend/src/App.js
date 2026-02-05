@@ -1164,25 +1164,18 @@ function FormacionesPage() {
         </div>
       )}
 
-      <Modal open={modalOpen} onClose={() => { setModalOpen(false); setSelectedSalonId(""); }} title="Registrar Formación">
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Registrar Formación">
         <form onSubmit={handleSubmit} className="space-y-4">
           <Select
-            label="1. Selecciona Salón"
-            options={[{ value: "", label: "-- Todos los salones --" }, ...salones.map((s) => ({ value: s.id, label: s.name }))]}
-            value={selectedSalonId}
-            onChange={(e) => { setSelectedSalonId(e.target.value); setFormData({ ...formData, employee_id: "" }); }}
-            data-testid="training-salon-filter"
-          />
-          <Select
-            label="2. Selecciona Empleado"
-            options={filteredEmployees.map((e) => ({ value: e.id, label: `${e.name} (${e.salon_name})` }))}
+            label="Empleado"
+            options={employees.map((e) => ({ value: e.id, label: `${e.name} (${e.salon_name})` }))}
             value={formData.employee_id}
             onChange={(e) => setFormData({ ...formData, employee_id: e.target.value })}
             required
             data-testid="training-employee"
           />
           <Select
-            label="3. Tipo de Formación"
+            label="Tipo de Formación"
             options={trainingTypes.map((t) => ({ value: t.id, label: t.name }))}
             value={formData.training_type_id}
             onChange={(e) => setFormData({ ...formData, training_type_id: e.target.value })}

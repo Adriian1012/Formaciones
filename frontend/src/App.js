@@ -1908,6 +1908,7 @@ function App() {
           <Route path="/empleados" element={<ProtectedRoute><Layout><EmpleadosPage /></Layout></ProtectedRoute>} />
           <Route path="/empleados/:id" element={<ProtectedRoute><Layout><EmpleadoDetailPage /></Layout></ProtectedRoute>} />
           <Route path="/formaciones" element={<ProtectedRoute><Layout><FormacionesPage /></Layout></ProtectedRoute>} />
+          <Route path="/acciones" element={<ProtectedRoute><Layout><AccionesPage /></Layout></ProtectedRoute>} />
           <Route path="/agenda" element={<ProtectedRoute><Layout><AgendaPage /></Layout></ProtectedRoute>} />
           <Route path="/reportes" element={<ProtectedRoute><Layout><ReportesPage /></Layout></ProtectedRoute>} />
           <Route path="/admin" element={<ProtectedRoute><Layout><AdminPage /></Layout></ProtectedRoute>} />

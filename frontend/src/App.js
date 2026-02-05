@@ -1520,6 +1520,14 @@ function AdminPage() {
       await api.post("/users/assign-salons", { coordinator_id: selectedUser.id, salon_ids: selectedSalons });
       toast.success("Salones asignados");
       setAssignModal(false);
+      
+      // Si es el usuario actual, actualizar localStorage y recargar datos del usuario
+      if (selectedUser.id === currentUser.id) {
+        const updatedUser = { ...currentUser, assigned_salons: selectedSalons };
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        window.location.reload(); // Recargar para actualizar el contexto
+      }
+      
       fetchData();
     } catch (err) {
       toast.error("Error al asignar salones");

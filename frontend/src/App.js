@@ -95,8 +95,8 @@ function BottomNav() {
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-xl border-t border-border z-50 md:hidden pb-8">
-      <div className="flex justify-around items-center h-16 px-2">
+    <nav className="fixed bottom-8 left-0 right-0 bg-background border-t border-border z-50 md:hidden">
+      <div className="flex justify-around items-center h-14 px-1">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path || (item.path !== "/" && location.pathname.startsWith(item.path));
           return (

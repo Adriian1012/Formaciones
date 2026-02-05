@@ -1708,6 +1708,23 @@ function AdminPage() {
           </div>
         </div>
       )}
+
+      <Modal open={assignModal} onClose={() => setAssignModal(false)} title={`Asignar Salones a ${selectedUser?.name}`}>
+        <div className="space-y-2 max-h-64 overflow-y-auto">
+          {salones.map((salon) => (
+            <label key={salon.id} className="flex items-center gap-3 p-3 bg-background rounded-lg cursor-pointer hover:bg-accent transition-all">
+              <input
+                type="checkbox"
+                checked={selectedSalons.includes(salon.id)}
+                onChange={() => toggleSalon(salon.id)}
+                className="w-5 h-5 rounded border-input"
+              />
+              <span>{salon.name}</span>
+            </label>
+          ))}
+        </div>
+        <Button onClick={handleAssignSalons} className="w-full mt-4">Guardar Asignación</Button>
+      </Modal>
     </div>
   );
 }

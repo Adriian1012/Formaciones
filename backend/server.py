@@ -738,6 +738,125 @@ async def delete_scheduled_training(scheduled_id: str, user: dict = Depends(get_
         raise HTTPException(status_code=404, detail="Formación programada no encontrada")
     return {"message": "Formación programada eliminada"}
 
+# ============== ACTION TYPES ROUTES ==============
+
+@api_router.post("/action-types", response_model=ActionTypeResponse)
+async def create_action_type(type_data: ActionTypeCreate, admin: dict = Depends(require_admin)):
+    action_type = {
+        "id": str(uuid.uuid4()),
+        "name": type_data.name,
+        "description": type_data.description or "",
+        "created_at": datetime.now(timezone.utc).isoformat()
+    }
+    await db.action_types.insert_one(action_type)
+    return ActionTypeResponse(**action_type)
+
+@api_router.get("/action-types", response_model=List[ActionTypeResponse])
+async def get_action_types(user: dict = Depends(get_current_user)):
+    types = await db.action_types.find({}, {"_id": 0}).to_list(1000)
+    return [ActionTypeResponse(**t) for t in types]
+
+@api_router.put("/action-types/{type_id}", response_model=ActionTypeResponse)
+async def update_action_type(type_id: str, type_data: ActionTypeCreate, admin: dict = Depends(require_admin)):
+    result = await db.action_types.find_one_and_update(
+        {"id": type_id},
+        {"$set": {"name": type_data.name, "description": type_data.description or ""}},
+        return_document=True
+    )
+    if not result:
+        raise HTTPException(status_code=404, detail="Tipo de acción no encontrado")
+    del result["_id"]
+    return ActionTypeResponse(**result)
+
+@api_router.delete("/action-types/{type_id}", response_model=dict)
+async def delete_action_type(type_id: str, admin: dict = Depends(require_admin)):
+    result = await db.action_types.delete_one({"id": type_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Tipo de acción no encontrado")
+    return {"message": "Tipo de acción eliminado"}
+
+# ============== ACTIONS ROUTES ==============
+
+@api_router.post("/actions", response_model=ActionResponse)
+async def create_action(action_data: ActionCreate, user: dict = Depends(get_current_user)):
+    # Verify salon exists
+    salon = await db.salons.find_one({"id": action_data.salon_id}, {"_id": 0})
+    if not salon:
+        raise HTTPException(status_code=404, detail="Salón no encontrado")
+    
+    # Verify action type exists
+    action_type = await db.action_types.find_one({"id": action_data.action_type_id}, {"_id": 0})
+    if not action_type:
+        raise HTTPException(status_code=404, detail="Tipo de acción no encontrado")
+    
+    action = {
+        "id": str(uuid.uuid4()),
+        "salon_id": action_data.salon_id,
+        "action_type_id": action_data.action_type_id,
+        "coordinator_id": user["id"],
+        "notes": action_data.notes or "",
+        "date": datetime.now(timezone.utc).isoformat()
+    }
+    await db.actions.insert_one(action)
+    
+    action["salon_name"] = salon["name"]
+    action["action_type_name"] = action_type["name"]
+    action["coordinator_name"] = user["name"]
+    
+    return ActionResponse(**action)
+
+@api_router.get("/actions", response_model=List[ActionResponse])
+async def get_actions(
+    salon_id: Optional[str] = None,
+    action_type_id: Optional[str] = None,
+    user: dict = Depends(get_current_user)
+):
+    query = {}
+    if salon_id:
+        query["salon_id"] = salon_id
+    elif user["role"] == "coordinator" and user.get("assigned_salons"):
+        # Coordinators see actions from their assigned salons
+        query["salon_id"] = {"$in": user["assigned_salons"]}
+    # Admin and supervisor see all
+    
+    if action_type_id:
+        query["action_type_id"] = action_type_id
+    
+    actions = await db.actions.find(query, {"_id": 0}).sort("date", -1).to_list(1000)
+    
+    # Get related data
+    salon_ids = list(set(a["salon_id"] for a in actions))
+    type_ids = list(set(a["action_type_id"] for a in actions))
+    coord_ids = list(set(a["coordinator_id"] for a in actions))
+    
+    salons = await db.salons.find({"id": {"$in": salon_ids}}, {"_id": 0}).to_list(1000)
+    types = await db.action_types.find({"id": {"$in": type_ids}}, {"_id": 0}).to_list(1000)
+    coordinators = await db.users.find({"id": {"$in": coord_ids}}, {"_id": 0}).to_list(1000)
+    
+    salon_map = {s["id"]: s["name"] for s in salons}
+    type_map = {t["id"]: t["name"] for t in types}
+    coord_map = {c["id"]: c["name"] for c in coordinators}
+    
+    for a in actions:
+        a["salon_name"] = salon_map.get(a["salon_id"], "")
+        a["action_type_name"] = type_map.get(a["action_type_id"], "")
+        a["coordinator_name"] = coord_map.get(a["coordinator_id"], "")
+    
+    return [ActionResponse(**a) for a in actions]
+
+@api_router.delete("/actions/{action_id}", response_model=dict)
+async def delete_action(action_id: str, user: dict = Depends(get_current_user)):
+    action = await db.actions.find_one({"id": action_id}, {"_id": 0})
+    if not action:
+        raise HTTPException(status_code=404, detail="Acción no encontrada")
+    
+    # Only allow deletion by the coordinator who created it or admin
+    if user["role"] != "admin" and action["coordinator_id"] != user["id"]:
+        raise HTTPException(status_code=403, detail="No tienes permiso para eliminar esta acción")
+    
+    await db.actions.delete_one({"id": action_id})
+    return {"message": "Acción eliminada"}
+
 # ============== STATS/REPORTS ROUTES ==============
 
 @api_router.get("/stats", response_model=StatsResponse)

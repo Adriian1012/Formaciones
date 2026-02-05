@@ -282,10 +282,31 @@ async def get_me(user: dict = Depends(get_current_user)):
 
 # ============== USERS ROUTES (Admin only) ==============
 
+class ChangeRoleRequest(BaseModel):
+    user_id: str
+    role: str  # coordinator, supervisor
+
 @api_router.get("/users", response_model=List[UserResponse])
 async def get_users(admin: dict = Depends(require_admin)):
     users = await db.users.find({}, {"_id": 0, "password": 0}).to_list(1000)
     return [UserResponse(**u) for u in users]
+
+@api_router.post("/users/change-role", response_model=dict)
+async def change_user_role(request: ChangeRoleRequest, admin: dict = Depends(require_admin)):
+    if request.role not in ["coordinator", "supervisor"]:
+        raise HTTPException(status_code=400, detail="Rol inválido. Usa 'coordinator' o 'supervisor'")
+    
+    user = await db.users.find_one({"id": request.user_id}, {"_id": 0})
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    if user["role"] == "admin":
+        raise HTTPException(status_code=400, detail="No puedes cambiar el rol del administrador")
+    
+    await db.users.update_one(
+        {"id": request.user_id},
+        {"$set": {"role": request.role}}
+    )
+    return {"message": f"Rol cambiado a {request.role}"}
 
 @api_router.post("/users/assign-salons", response_model=dict)
 async def assign_salons(request: AssignSalonsRequest, admin: dict = Depends(require_admin)):

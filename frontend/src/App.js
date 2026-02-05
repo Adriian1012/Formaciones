@@ -1053,25 +1053,21 @@ function FormacionesPage() {
   const [trainings, setTrainings] = useState([]);
   const [trainingTypes, setTrainingTypes] = useState([]);
   const [employees, setEmployees] = useState([]);
-  const [salones, setSalones] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedSalonId, setSelectedSalonId] = useState("");
   const [formData, setFormData] = useState({ employee_id: "", training_type_id: "", notes: "", level_after: "" });
   const { user } = useAuth();
 
   const fetchData = async () => {
     try {
-      const [trainRes, typesRes, empRes, salonesRes] = await Promise.all([
+      const [trainRes, typesRes, empRes] = await Promise.all([
         api.get("/trainings"),
         api.get("/training-types"),
-        api.get("/employees"),
-        api.get("/salons")
+        api.get("/employees")
       ]);
       setTrainings(trainRes.data);
       setTrainingTypes(typesRes.data);
       setEmployees(empRes.data);
-      setSalones(salonesRes.data);
     } catch (err) {
       toast.error("Error al cargar datos");
     } finally {
@@ -1081,18 +1077,12 @@ function FormacionesPage() {
 
   useEffect(() => { fetchData(); }, []);
 
-  // Filtrar empleados por salón seleccionado
-  const filteredEmployees = selectedSalonId 
-    ? employees.filter(e => e.salon_id === selectedSalonId)
-    : employees;
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await api.post("/trainings", formData);
       toast.success("Formación registrada");
       setModalOpen(false);
-      setSelectedSalonId("");
       setFormData({ employee_id: "", training_type_id: "", notes: "", level_after: "" });
       fetchData();
     } catch (err) {

@@ -1738,6 +1738,7 @@ function AdminPage() {
       <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
         {[
           { id: "types", label: "Tipos de Formación", icon: GraduationCap },
+          { id: "action-types", label: "Tipos de Acción", icon: Zap },
           { id: "users", label: "Coordinadores", icon: Users },
           { id: "tools", label: "Herramientas", icon: Settings },
         ].map((tab) => (

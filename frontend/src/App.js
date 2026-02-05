@@ -139,9 +139,10 @@ function Sidebar() {
 
   return (
     <aside className={`hidden md:flex flex-col bg-card border-r border-border h-screen sticky top-0 transition-all duration-300 ${collapsed ? "w-16" : "w-64"}`}>
-      <div className="p-4 border-b border-border flex items-center justify-between">
+      <div className="p-4 border-b border-border flex items-center justify-between gap-2">
+        <img src="/logo-versus.png" alt="Versus" className="h-8 w-8 object-contain" />
         {!collapsed && (
-          <h1 className="font-heading text-lg font-bold text-emerald-500 uppercase tracking-tight">Formaciones Versus</h1>
+          <h1 className="font-heading text-lg font-bold text-emerald-500 uppercase tracking-tight flex-1">Formaciones Versus</h1>
         )}
         <button onClick={() => setCollapsed(!collapsed)} className="p-2 hover:bg-accent rounded-lg">
           {collapsed ? <ChevronRight size={20} /> : <Menu size={20} />}

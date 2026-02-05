@@ -1799,6 +1799,50 @@ function AdminPage() {
         </div>
       )}
 
+      {activeTab === "action-types" && (
+        <div>
+          <div className="flex justify-end mb-4">
+            <Button onClick={() => { setEditingActionType(null); setActionTypeForm({ name: "", description: "" }); setActionModalOpen(true); }} data-testid="add-action-type-btn">
+              <Plus size={20} /> Nuevo Tipo de Acción
+            </Button>
+          </div>
+
+          {actionTypes.length === 0 ? (
+            <EmptyState icon={Zap} title="Sin tipos de acción" description="Crea tipos de acción como 'Regalo VIP', 'Sorteo', 'Promoción', etc." />
+          ) : (
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {actionTypes.map((type) => (
+                <div key={type.id} className="bg-card border border-border rounded-lg p-4 group hover:border-amber-500/50 transition-all">
+                  <div className="flex items-start justify-between">
+                    <div className="p-2 bg-amber-500/10 rounded-lg">
+                      <Zap size={20} className="text-amber-500" />
+                    </div>
+                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button onClick={() => { setEditingActionType(type); setActionTypeForm({ name: type.name, description: type.description }); setActionModalOpen(true); }} className="p-2 hover:bg-accent rounded-lg">
+                        <Edit size={16} />
+                      </button>
+                      <button onClick={() => handleDeleteActionType(type.id)} className="p-2 hover:bg-destructive/10 text-destructive rounded-lg">
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </div>
+                  <h3 className="font-medium mt-3">{type.name}</h3>
+                  {type.description && <p className="text-sm text-muted-foreground mt-1">{type.description}</p>}
+                </div>
+              ))}
+            </div>
+          )}
+
+          <Modal open={actionModalOpen} onClose={() => setActionModalOpen(false)} title={editingActionType ? "Editar Tipo de Acción" : "Nuevo Tipo de Acción"}>
+            <form onSubmit={handleSubmitActionType} className="space-y-4">
+              <Input label="Nombre" value={actionTypeForm.name} onChange={(e) => setActionTypeForm({ ...actionTypeForm, name: e.target.value })} required placeholder="Ej: Regalo VIP" data-testid="action-type-name" />
+              <Textarea label="Descripción" value={actionTypeForm.description} onChange={(e) => setActionTypeForm({ ...actionTypeForm, description: e.target.value })} placeholder="Descripción opcional" data-testid="action-type-description" />
+              <Button type="submit" className="w-full" data-testid="action-type-submit">{editingActionType ? "Actualizar" : "Crear"}</Button>
+            </form>
+          </Modal>
+        </div>
+      )}
+
       {activeTab === "users" && (
         <div>
           {users.filter(u => u.role !== "admin").length === 0 ? (

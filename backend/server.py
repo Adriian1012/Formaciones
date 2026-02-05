@@ -908,13 +908,18 @@ async def get_stats(user: dict = Depends(get_current_user)):
     upcoming_filter = {"completed": False, "scheduled_date": {"$gte": datetime.now(timezone.utc).strftime("%Y-%m-%d")}}
     upcoming_trainings = await db.scheduled_trainings.count_documents(upcoming_filter)
     
+    # Total actions
+    action_filter = salon_filter if salon_filter else {}
+    total_actions = await db.actions.count_documents(action_filter)
+    
     return StatsResponse(
         total_employees=total_employees,
         total_trainings=total_trainings,
         trainings_this_month=trainings_this_month,
         employees_by_level=employees_by_level,
         trainings_by_type=trainings_by_type,
-        upcoming_trainings=upcoming_trainings
+        upcoming_trainings=upcoming_trainings,
+        total_actions=total_actions
     )
 
 @api_router.get("/reports/monthly", response_model=dict)

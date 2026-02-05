@@ -145,7 +145,7 @@ function Sidebar() {
         {!collapsed && (
           <h1 className="font-heading text-lg font-bold text-cyan-400 uppercase tracking-tight flex-1">Formaciones Versus</h1>
         )}
-        <button onClick={() => setCollapsed(!collapsed)} className="p-2 hover:bg-accent rounded-lg">
+        <button onClick={() => setCollapsed(!collapsed)} className="p-2 hover:bg-cyan-400/20 rounded-lg">
           {collapsed ? <ChevronRight size={20} /> : <Menu size={20} />}
         </button>
       </div>
@@ -160,7 +160,7 @@ function Sidebar() {
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigate(item.path); }}
               data-testid={`sidebar-${item.path.replace('/', '') || 'home'}`}
               className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg transition-all cursor-pointer select-none ${
-                isActive ? "bg-cyan-400/10 text-cyan-400 border border-cyan-400/30" : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                isActive ? "bg-cyan-400/10 text-cyan-400 border border-cyan-400/30" : "text-muted-foreground hover:bg-cyan-400/20 hover:text-foreground"
               }`}
             >
               <item.icon size={20} />
@@ -236,7 +236,7 @@ function StatCard({ icon: Icon, label, value, trend, color = "emerald", onClick 
 function EmptyState({ icon: Icon, title, description, action }) {
   return (
     <div className="flex flex-col items-center justify-center py-12 text-center">
-      <div className="p-4 bg-accent rounded-full mb-4">
+      <div className="p-4 bg-cyan-400/20 rounded-full mb-4">
         <Icon size={32} className="text-muted-foreground" />
       </div>
       <h3 className="font-heading text-lg font-semibold">{title}</h3>
@@ -255,7 +255,7 @@ function Modal({ open, onClose, title, children }) {
       <div className="relative bg-card border border-border rounded-lg w-full max-w-md max-h-[90vh] overflow-auto shadow-xl animate-in fade-in zoom-in-95">
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h2 className="font-heading text-lg font-semibold">{title}</h2>
-          <button onClick={onClose} className="p-2 hover:bg-accent rounded-lg">
+          <button onClick={onClose} className="p-2 hover:bg-cyan-400/20 rounded-lg">
             <X size={20} />
           </button>
         </div>
@@ -269,9 +269,9 @@ function Button({ children, variant = "primary", size = "md", className = "", ..
   const variants = {
     primary: "bg-cyan-400 text-white hover:bg-cyan-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]",
     secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-    outline: "border border-border bg-transparent hover:bg-accent",
+    outline: "border border-border bg-transparent hover:bg-cyan-400/20",
     destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-    ghost: "hover:bg-accent",
+    ghost: "hover:bg-cyan-400/20",
   };
   
   const sizes = {
@@ -727,7 +727,7 @@ function SalonesPage() {
                 </div>
                 {user?.role === "admin" && (
                   <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button onClick={(e) => { e.stopPropagation(); openEdit(salon); }} className="p-2 hover:bg-accent rounded-lg" data-testid={`edit-salon-${salon.id}`}>
+                    <button onClick={(e) => { e.stopPropagation(); openEdit(salon); }} className="p-2 hover:bg-cyan-400/20 rounded-lg" data-testid={`edit-salon-${salon.id}`}>
                       <Edit size={16} />
                     </button>
                     <button onClick={(e) => { e.stopPropagation(); handleDelete(salon.id); }} className="p-2 hover:bg-destructive/10 text-destructive rounded-lg" data-testid={`delete-salon-${salon.id}`}>
@@ -930,7 +930,7 @@ function EmpleadosPage() {
               </div>
               <LevelBadge level={emp.level} />
               <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button onClick={() => { setEditing(emp); setFormData({ name: emp.name, salon_id: emp.salon_id, level: emp.level, notes: emp.notes }); setModalOpen(true); }} className="p-2 hover:bg-accent rounded-lg" data-testid={`edit-emp-${emp.id}`}>
+                <button onClick={() => { setEditing(emp); setFormData({ name: emp.name, salon_id: emp.salon_id, level: emp.level, notes: emp.notes }); setModalOpen(true); }} className="p-2 hover:bg-cyan-400/20 rounded-lg" data-testid={`edit-emp-${emp.id}`}>
                   <Edit size={16} />
                 </button>
                 <button onClick={() => handleDelete(emp.id)} className="p-2 hover:bg-destructive/10 text-destructive rounded-lg" data-testid={`delete-emp-${emp.id}`}>
@@ -1774,7 +1774,7 @@ function AdminPage() {
                       <GraduationCap size={20} className="text-cyan-400" />
                     </div>
                     <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => { setEditingType(type); setTypeForm({ name: type.name, description: type.description }); setModalOpen(true); }} className="p-2 hover:bg-accent rounded-lg">
+                      <button onClick={() => { setEditingType(type); setTypeForm({ name: type.name, description: type.description }); setModalOpen(true); }} className="p-2 hover:bg-cyan-400/20 rounded-lg">
                         <Edit size={16} />
                       </button>
                       <button onClick={() => handleDeleteType(type.id)} className="p-2 hover:bg-destructive/10 text-destructive rounded-lg">
@@ -1818,7 +1818,7 @@ function AdminPage() {
                       <Zap size={20} className="text-amber-500" />
                     </div>
                     <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => { setEditingActionType(type); setActionTypeForm({ name: type.name, description: type.description }); setActionModalOpen(true); }} className="p-2 hover:bg-accent rounded-lg">
+                      <button onClick={() => { setEditingActionType(type); setActionTypeForm({ name: type.name, description: type.description }); setActionModalOpen(true); }} className="p-2 hover:bg-cyan-400/20 rounded-lg">
                         <Edit size={16} />
                       </button>
                       <button onClick={() => handleDeleteActionType(type.id)} className="p-2 hover:bg-destructive/10 text-destructive rounded-lg">
@@ -1929,7 +1929,7 @@ function AdminPage() {
       <Modal open={assignModal} onClose={() => setAssignModal(false)} title={`Asignar Salones a ${selectedUser?.name}`}>
         <div className="space-y-2 max-h-64 overflow-y-auto">
           {salones.map((salon) => (
-            <label key={salon.id} className="flex items-center gap-3 p-3 bg-background rounded-lg cursor-pointer hover:bg-accent transition-all">
+            <label key={salon.id} className="flex items-center gap-3 p-3 bg-background rounded-lg cursor-pointer hover:bg-cyan-400/20 transition-all">
               <input
                 type="checkbox"
                 checked={selectedSalons.includes(salon.id)}

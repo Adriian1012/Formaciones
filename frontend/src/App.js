@@ -3,7 +3,7 @@ import "@/App.css";
 import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
-import { Home, Users, Building2, GraduationCap, Calendar, BarChart3, Settings, LogOut, Menu, X, ChevronRight, Plus, Search, Filter, Edit, Trash2, Check, Clock, TrendingUp, User } from "lucide-react";
+import { Home, Users, Building2, GraduationCap, Calendar, BarChart3, Settings, LogOut, Menu, X, ChevronRight, Plus, Search, Filter, Edit, Trash2, Check, Clock, TrendingUp, User, Zap } from "lucide-react";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;

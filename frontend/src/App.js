@@ -652,11 +652,16 @@ function SalonesPage() {
     setModalOpen(true);
   };
 
-  const filteredSalones = salones.filter((s) => 
-    s.name.toLowerCase().includes(search.toLowerCase()) ||
-    s.address?.toLowerCase().includes(search.toLowerCase()) ||
-    s.city?.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredSalones = salones.filter((s) => {
+    const matchSearch = s.name.toLowerCase().includes(search.toLowerCase()) ||
+      s.address?.toLowerCase().includes(search.toLowerCase()) ||
+      s.city?.toLowerCase().includes(search.toLowerCase());
+    
+    // Si onlyMine está activo y el admin tiene salones asignados, filtrar
+    const matchMine = !onlyMine || !user?.assigned_salons?.length || user.assigned_salons.includes(s.id);
+    
+    return matchSearch && matchMine;
+  });
 
   return (
     <div data-testid="salones-page">

@@ -172,7 +172,9 @@ function Sidebar() {
         {!collapsed && (
           <div className="px-3 py-2 mb-2">
             <p className="text-sm font-medium truncate">{user?.name}</p>
-            <p className="text-xs text-muted-foreground">{user?.role === "admin" ? "Administrador" : "Coordinador"}</p>
+            <p className="text-xs text-muted-foreground">
+              {user?.role === "admin" ? "Administrador" : user?.role === "supervisor" ? "Supervisor" : "Coordinador"}
+            </p>
           </div>
         )}
         <button

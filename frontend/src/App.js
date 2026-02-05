@@ -1587,32 +1587,50 @@ function AdminPage() {
 
       {activeTab === "users" && (
         <div>
-          {users.filter(u => u.role === "coordinator").length === 0 ? (
-            <EmptyState icon={Users} title="Sin coordinadores" description="Los coordinadores pueden registrarse desde la pantalla de login" />
+          {users.filter(u => u.role !== "admin").length === 0 ? (
+            <EmptyState icon={Users} title="Sin usuarios" description="Los coordinadores pueden registrarse desde la pantalla de login" />
           ) : (
             <div className="space-y-3">
               {users.filter(u => u.role !== "admin" || u.id === currentUser.id).map((user) => (
-                <div key={user.id} className="bg-card border border-border rounded-lg p-4 flex items-center gap-4">
+                <div key={user.id} className="bg-card border border-border rounded-lg p-4 flex items-center gap-4 flex-wrap">
                   <div className="p-2 bg-secondary rounded-full">
                     <User size={20} />
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <p className="font-medium">{user.name}</p>
-                      <Badge variant={user.role === "admin" ? "success" : "default"}>{user.role === "admin" ? "Admin" : "Coordinador"}</Badge>
+                      <Badge variant={user.role === "admin" ? "success" : user.role === "supervisor" ? "info" : "default"}>
+                        {user.role === "admin" ? "Admin" : user.role === "supervisor" ? "Supervisor" : "Coordinador"}
+                      </Badge>
                     </div>
-                    <p className="text-sm text-muted-foreground">{user.email}</p>
+                    <p className="text-sm text-muted-foreground truncate">{user.email}</p>
                     {user.role === "coordinator" && (
                       <p className="text-xs text-muted-foreground mt-1">
                         {user.assigned_salons?.length || 0} salones asignados
                       </p>
                     )}
+                    {user.role === "supervisor" && (
+                      <p className="text-xs text-blue-500 mt-1">
+                        Ve todas las salas y empleados
+                      </p>
+                    )}
                   </div>
-                  {user.role === "coordinator" && (
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm" onClick={() => openAssignModal(user)}>
-                        <Building2 size={16} /> Asignar
-                      </Button>
+                  {user.role !== "admin" && (
+                    <div className="flex gap-2 flex-wrap">
+                      <Select
+                        options={[
+                          { value: "coordinator", label: "Coordinador" },
+                          { value: "supervisor", label: "Supervisor" }
+                        ]}
+                        value={user.role}
+                        onChange={(e) => handleChangeRole(user.id, e.target.value)}
+                        className="w-32"
+                      />
+                      {user.role === "coordinator" && (
+                        <Button variant="outline" size="sm" onClick={() => openAssignModal(user)}>
+                          <Building2 size={16} /> Asignar
+                        </Button>
+                      )}
                       <button onClick={() => handleDeleteUser(user.id)} className="p-2 hover:bg-destructive/10 text-destructive rounded-lg">
                         <Trash2 size={16} />
                       </button>

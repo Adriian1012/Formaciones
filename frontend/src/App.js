@@ -1639,6 +1639,37 @@ function AdminPage() {
     }
   };
 
+  // Action Types handlers
+  const handleSubmitActionType = async (e) => {
+    e.preventDefault();
+    try {
+      if (editingActionType) {
+        await api.put(`/action-types/${editingActionType.id}`, actionTypeForm);
+        toast.success("Tipo de acción actualizado");
+      } else {
+        await api.post("/action-types", actionTypeForm);
+        toast.success("Tipo de acción creado");
+      }
+      setActionModalOpen(false);
+      setEditingActionType(null);
+      setActionTypeForm({ name: "", description: "" });
+      fetchData();
+    } catch (err) {
+      toast.error(err.response?.data?.detail || "Error");
+    }
+  };
+
+  const handleDeleteActionType = async (id) => {
+    if (!window.confirm("¿Eliminar este tipo de acción?")) return;
+    try {
+      await api.delete(`/action-types/${id}`);
+      toast.success("Tipo de acción eliminado");
+      fetchData();
+    } catch (err) {
+      toast.error(err.response?.data?.detail || "Error");
+    }
+  };
+
   const handleDeleteUser = async (id) => {
     if (!window.confirm("¿Eliminar este coordinador?")) return;
     try {

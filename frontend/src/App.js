@@ -1197,6 +1197,139 @@ function FormacionesPage() {
   );
 }
 
+function AccionesPage() {
+  const [actions, setActions] = useState([]);
+  const [actionTypes, setActionTypes] = useState([]);
+  const [salones, setSalones] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [formData, setFormData] = useState({ salon_id: "", action_type_id: "", notes: "" });
+  const { user } = useAuth();
+
+  const fetchData = async () => {
+    try {
+      const [actionsRes, typesRes, salonesRes] = await Promise.all([
+        api.get("/actions"),
+        api.get("/action-types"),
+        api.get("/salons")
+      ]);
+      setActions(actionsRes.data);
+      setActionTypes(typesRes.data);
+      setSalones(salonesRes.data);
+    } catch (err) {
+      toast.error("Error al cargar datos");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => { fetchData(); }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await api.post("/actions", formData);
+      toast.success("Acción registrada");
+      setModalOpen(false);
+      setFormData({ salon_id: "", action_type_id: "", notes: "" });
+      fetchData();
+    } catch (err) {
+      toast.error(err.response?.data?.detail || "Error");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("¿Eliminar esta acción?")) return;
+    try {
+      await api.delete(`/actions/${id}`);
+      toast.success("Acción eliminada");
+      fetchData();
+    } catch (err) {
+      toast.error(err.response?.data?.detail || "Error al eliminar");
+    }
+  };
+
+  return (
+    <div data-testid="acciones-page">
+      <PageHeader
+        title="Acciones"
+        subtitle={`${actions.length} acciones registradas`}
+        action={
+          <Button onClick={() => { setFormData({ salon_id: salones[0]?.id || "", action_type_id: actionTypes[0]?.id || "", notes: "" }); setModalOpen(true); }} data-testid="add-action-btn" disabled={actionTypes.length === 0}>
+            <Plus size={20} /> Nueva Acción
+          </Button>
+        }
+      />
+
+      {actionTypes.length === 0 && (
+        <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4 mb-6">
+          <p className="text-amber-500">No hay tipos de acción creados. El administrador debe crear tipos de acción primero en Administración.</p>
+        </div>
+      )}
+
+      {loading ? (
+        <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" /></div>
+      ) : actions.length === 0 ? (
+        <EmptyState icon={Zap} title="Sin acciones" description="Aún no hay acciones registradas" />
+      ) : (
+        <div className="space-y-3">
+          {actions.map((a) => (
+            <div key={a.id} className="bg-card border border-border rounded-lg p-4 hover:border-emerald-500/30 transition-all">
+              <div className="flex items-start justify-between flex-wrap gap-2">
+                <div>
+                  <p className="font-medium">{a.salon_name || "Sin salón"}</p>
+                  <p className="text-sm text-amber-500">{a.action_type_name || "Sin tipo"}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">
+                    {new Date(a.date).toLocaleDateString("es-ES", { day: "numeric", month: "short", year: "numeric" })}
+                  </span>
+                  {(user?.role === "admin" || a.coordinator_id === user?.id) && (
+                    <button 
+                      onClick={() => handleDelete(a.id)} 
+                      className="p-2 hover:bg-destructive/10 text-destructive rounded-lg transition-all"
+                      title="Eliminar acción"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
+                <span>Por: {a.coordinator_name || "Desconocido"}</span>
+              </div>
+              {a.notes && <p className="text-sm text-muted-foreground mt-2 border-t border-border pt-2">{a.notes}</p>}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Registrar Acción">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Select
+            label="Salón"
+            options={salones.map((s) => ({ value: s.id, label: s.name }))}
+            value={formData.salon_id}
+            onChange={(e) => setFormData({ ...formData, salon_id: e.target.value })}
+            required
+            data-testid="action-salon"
+          />
+          <Select
+            label="Tipo de Acción"
+            options={actionTypes.map((t) => ({ value: t.id, label: t.name }))}
+            value={formData.action_type_id}
+            onChange={(e) => setFormData({ ...formData, action_type_id: e.target.value })}
+            required
+            data-testid="action-type"
+          />
+          <Textarea label="Notas" value={formData.notes} onChange={(e) => setFormData({ ...formData, notes: e.target.value })} placeholder="Detalles de la acción..." data-testid="action-notes" />
+          <Button type="submit" className="w-full" data-testid="action-submit">Registrar Acción</Button>
+        </form>
+      </Modal>
+    </div>
+  );
+}
+
 function AgendaPage() {
   const [scheduled, setScheduled] = useState([]);
   const [trainingTypes, setTrainingTypes] = useState([]);

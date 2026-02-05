@@ -1573,12 +1573,16 @@ function ReportesPage() {
 function AdminPage() {
   const [activeTab, setActiveTab] = useState("types");
   const [trainingTypes, setTrainingTypes] = useState([]);
+  const [actionTypes, setActionTypes] = useState([]);
   const [users, setUsers] = useState([]);
   const [salones, setSalones] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
+  const [actionModalOpen, setActionModalOpen] = useState(false);
   const [editingType, setEditingType] = useState(null);
+  const [editingActionType, setEditingActionType] = useState(null);
   const [typeForm, setTypeForm] = useState({ name: "", description: "" });
+  const [actionTypeForm, setActionTypeForm] = useState({ name: "", description: "" });
   const [assignModal, setAssignModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedSalons, setSelectedSalons] = useState([]);
@@ -1586,12 +1590,14 @@ function AdminPage() {
 
   const fetchData = async () => {
     try {
-      const [typesRes, usersRes, salonesRes] = await Promise.all([
+      const [typesRes, actionTypesRes, usersRes, salonesRes] = await Promise.all([
         api.get("/training-types"),
+        api.get("/action-types"),
         api.get("/users"),
         api.get("/salons")
       ]);
       setTrainingTypes(typesRes.data);
+      setActionTypes(actionTypesRes.data);
       setUsers(usersRes.data);
       setSalones(salonesRes.data);
     } catch (err) {

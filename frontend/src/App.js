@@ -1696,6 +1696,18 @@ function AdminPage() {
       {activeTab === "tools" && (
         <div className="space-y-4">
           <div className="bg-card border border-border rounded-lg p-5">
+            <h3 className="font-heading text-lg font-semibold mb-2">Mis Salones Asignados</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Selecciona los salones que coordinas directamente. Esto te permitirá filtrarlos rápidamente.
+              <br />
+              <span className="text-emerald-500">Actualmente tienes {currentUser?.assigned_salons?.length || 0} salones asignados.</span>
+            </p>
+            <Button onClick={() => { setSelectedUser(currentUser); setSelectedSalons(currentUser?.assigned_salons || []); setAssignModal(true); }} data-testid="assign-my-salons-btn">
+              <Building2 size={20} /> Configurar Mis Salones
+            </Button>
+          </div>
+          
+          <div className="bg-card border border-border rounded-lg p-5">
             <h3 className="font-heading text-lg font-semibold mb-2">Enviar Recordatorios</h3>
             <p className="text-sm text-muted-foreground mb-4">Envía recordatorios por email para las formaciones programadas para mañana.</p>
             <Button onClick={handleSendReminders} data-testid="send-reminders-btn">

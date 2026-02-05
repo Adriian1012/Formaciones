@@ -1507,6 +1507,16 @@ function AdminPage() {
     setSelectedSalons(prev => prev.includes(salonId) ? prev.filter(id => id !== salonId) : [...prev, salonId]);
   };
 
+  const handleChangeRole = async (userId, newRole) => {
+    try {
+      await api.post("/users/change-role", { user_id: userId, role: newRole });
+      toast.success(`Rol cambiado a ${newRole === "supervisor" ? "Supervisor" : "Coordinador"}`);
+      fetchData();
+    } catch (err) {
+      toast.error(err.response?.data?.detail || "Error al cambiar rol");
+    }
+  };
+
   const handleSendReminders = async () => {
     try {
       const { data } = await api.post("/send-reminders");

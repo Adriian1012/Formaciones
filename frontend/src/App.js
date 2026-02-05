@@ -85,8 +85,8 @@ function BottomNav() {
   const navItems = [
     { icon: Home, label: "Inicio", path: "/" },
     { icon: Building2, label: "Salones", path: "/salones" },
-    { icon: Users, label: "Empleados", path: "/empleados" },
     { icon: GraduationCap, label: "Formación", path: "/formaciones" },
+    { icon: Zap, label: "Acciones", path: "/acciones" },
     { icon: Calendar, label: "Agenda", path: "/agenda" },
   ];
 

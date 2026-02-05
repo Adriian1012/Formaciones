@@ -361,9 +361,21 @@ function LoginPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const { login, register } = useAuth();
   const navigate = useNavigate();
+
+  // Cargar credenciales guardadas al iniciar
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("remembered_email");
+    const savedPassword = localStorage.getItem("remembered_password");
+    if (savedEmail && savedPassword) {
+      setEmail(savedEmail);
+      setPassword(savedPassword);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -371,6 +383,14 @@ function LoginPage() {
     try {
       if (isLogin) {
         await login(email, password);
+        // Guardar o eliminar credenciales según checkbox
+        if (rememberMe) {
+          localStorage.setItem("remembered_email", email);
+          localStorage.setItem("remembered_password", password);
+        } else {
+          localStorage.removeItem("remembered_email");
+          localStorage.removeItem("remembered_password");
+        }
       } else {
         await register(name, email, password);
       }
@@ -400,6 +420,7 @@ function LoginPage() {
         <div className="bg-card/80 backdrop-blur-xl border border-border rounded-lg p-6">
           <div className="flex mb-6">
             <button
+              type="button"
               onClick={() => setIsLogin(true)}
               className={`flex-1 py-3 text-center font-medium rounded-l-sm transition-all ${
                 isLogin ? "bg-emerald-500 text-white" : "bg-secondary text-muted-foreground"
@@ -408,6 +429,7 @@ function LoginPage() {
               Iniciar Sesión
             </button>
             <button
+              type="button"
               onClick={() => setIsLogin(false)}
               className={`flex-1 py-3 text-center font-medium rounded-r-sm transition-all ${
                 !isLogin ? "bg-emerald-500 text-white" : "bg-secondary text-muted-foreground"
@@ -447,6 +469,18 @@ function LoginPage() {
               required
               data-testid="login-password"
             />
+            {isLogin && (
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4 rounded border-input bg-background"
+                  data-testid="remember-me"
+                />
+                <span className="text-sm text-muted-foreground">Recordar usuario y contraseña</span>
+              </label>
+            )}
             <Button type="submit" className="w-full" disabled={loading} data-testid="login-submit">
               {loading ? "Procesando..." : isLogin ? "Entrar" : "Crear Cuenta"}
             </Button>

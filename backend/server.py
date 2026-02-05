@@ -389,7 +389,9 @@ async def get_employees(salon_id: Optional[str] = None, user: dict = Depends(get
     if salon_id:
         query["salon_id"] = salon_id
     elif user["role"] == "coordinator" and user.get("assigned_salons"):
+        # Coordinator only sees employees from assigned salons
         query["salon_id"] = {"$in": user["assigned_salons"]}
+    # Admin and supervisor see all employees (no filter)
     
     employees = await db.employees.find(query, {"_id": 0}).to_list(1000)
     

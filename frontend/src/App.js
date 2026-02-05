@@ -129,6 +129,7 @@ function Sidebar() {
     { icon: Building2, label: "Salones", path: "/salones" },
     { icon: Users, label: "Empleados", path: "/empleados" },
     { icon: GraduationCap, label: "Formaciones", path: "/formaciones" },
+    { icon: Zap, label: "Acciones", path: "/acciones" },
     { icon: Calendar, label: "Agenda", path: "/agenda" },
     { icon: BarChart3, label: "Reportes", path: "/reportes" },
   ];

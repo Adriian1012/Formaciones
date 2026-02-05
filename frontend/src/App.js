@@ -105,7 +105,7 @@ function BottomNav() {
               onClick={() => navigate(item.path)}
               data-testid={`nav-${item.label.toLowerCase()}`}
               className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-all ${
-                isActive ? "text-emerald-500" : "text-muted-foreground hover:text-foreground"
+                isActive ? "text-cyan-400" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               <item.icon size={20} strokeWidth={isActive ? 2.5 : 2} />
@@ -143,7 +143,7 @@ function Sidebar() {
       <div className="p-4 border-b border-border flex items-center justify-between gap-2">
         <img src="/logo-versus.png" alt="Versus" className="h-8 w-8 object-contain" />
         {!collapsed && (
-          <h1 className="font-heading text-lg font-bold text-emerald-500 uppercase tracking-tight flex-1">Formaciones Versus</h1>
+          <h1 className="font-heading text-lg font-bold text-cyan-400 uppercase tracking-tight flex-1">Formaciones Versus</h1>
         )}
         <button onClick={() => setCollapsed(!collapsed)} className="p-2 hover:bg-accent rounded-lg">
           {collapsed ? <ChevronRight size={20} /> : <Menu size={20} />}
@@ -160,7 +160,7 @@ function Sidebar() {
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigate(item.path); }}
               data-testid={`sidebar-${item.path.replace('/', '') || 'home'}`}
               className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg transition-all cursor-pointer select-none ${
-                isActive ? "bg-emerald-500/10 text-emerald-500 border border-emerald-500/30" : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                isActive ? "bg-cyan-400/10 text-cyan-400 border border-cyan-400/30" : "text-muted-foreground hover:bg-accent hover:text-foreground"
               }`}
             >
               <item.icon size={20} />
@@ -205,7 +205,7 @@ function PageHeader({ title, subtitle, action }) {
 
 function StatCard({ icon: Icon, label, value, trend, color = "emerald", onClick }) {
   const colors = {
-    emerald: "text-emerald-500 bg-emerald-500/10 border-emerald-500/30",
+    emerald: "text-cyan-400 bg-cyan-400/10 border-cyan-400/30",
     blue: "text-blue-500 bg-blue-500/10 border-blue-500/30",
     amber: "text-amber-500 bg-amber-500/10 border-amber-500/30",
     slate: "text-slate-400 bg-slate-500/10 border-slate-500/30",
@@ -213,7 +213,7 @@ function StatCard({ icon: Icon, label, value, trend, color = "emerald", onClick 
 
   return (
     <div 
-      className={`bg-card border border-border rounded-lg p-5 hover:border-emerald-500/50 transition-all ${onClick ? "cursor-pointer" : ""}`}
+      className={`bg-card border border-border rounded-lg p-5 hover:border-cyan-400/50 transition-all ${onClick ? "cursor-pointer" : ""}`}
       onClick={onClick}
     >
       <div className="flex items-start justify-between">
@@ -221,7 +221,7 @@ function StatCard({ icon: Icon, label, value, trend, color = "emerald", onClick 
           <Icon size={20} />
         </div>
         {trend && (
-          <span className="flex items-center text-xs text-emerald-500">
+          <span className="flex items-center text-xs text-cyan-400">
             <TrendingUp size={14} className="mr-1" />
             {trend}
           </span>
@@ -267,7 +267,7 @@ function Modal({ open, onClose, title, children }) {
 
 function Button({ children, variant = "primary", size = "md", className = "", ...props }) {
   const variants = {
-    primary: "bg-emerald-500 text-white hover:bg-emerald-600 shadow-[0_0_20px_rgba(16,185,129,0.3)]",
+    primary: "bg-cyan-400 text-white hover:bg-cyan-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]",
     secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
     outline: "border border-border bg-transparent hover:bg-accent",
     destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
@@ -295,7 +295,7 @@ function Input({ label, error, className = "", ...props }) {
     <div className={className}>
       {label && <label className="text-sm font-medium text-muted-foreground mb-1.5 block">{label}</label>}
       <input
-        className="w-full h-12 px-4 bg-background border border-input rounded-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all outline-none"
+        className="w-full h-12 px-4 bg-background border border-input rounded-sm focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none"
         {...props}
       />
       {error && <p className="text-sm text-destructive mt-1">{error}</p>}
@@ -308,7 +308,7 @@ function Select({ label, options, error, className = "", ...props }) {
     <div className={className}>
       {label && <label className="text-sm font-medium text-muted-foreground mb-1.5 block">{label}</label>}
       <select
-        className="w-full h-12 px-4 bg-background border border-input rounded-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all outline-none appearance-none cursor-pointer"
+        className="w-full h-12 px-4 bg-background border border-input rounded-sm focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none appearance-none cursor-pointer"
         {...props}
       >
         {options.map((opt) => (
@@ -325,7 +325,7 @@ function Textarea({ label, error, className = "", ...props }) {
     <div className={className}>
       {label && <label className="text-sm font-medium text-muted-foreground mb-1.5 block">{label}</label>}
       <textarea
-        className="w-full p-4 bg-background border border-input rounded-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all outline-none resize-none"
+        className="w-full p-4 bg-background border border-input rounded-sm focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none resize-none"
         rows={3}
         {...props}
       />
@@ -337,7 +337,7 @@ function Textarea({ label, error, className = "", ...props }) {
 function Badge({ children, variant = "default" }) {
   const variants = {
     default: "bg-secondary text-secondary-foreground",
-    success: "bg-emerald-500/20 text-emerald-500",
+    success: "bg-cyan-400/20 text-cyan-400",
     warning: "bg-amber-500/20 text-amber-500",
     info: "bg-blue-500/20 text-blue-500",
   };
@@ -417,7 +417,7 @@ function LoginPage() {
       
       <div className="relative w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="font-heading text-4xl font-bold text-emerald-500 uppercase tracking-tight">Formaciones Versus</h1>
+          <h1 className="font-heading text-4xl font-bold text-cyan-400 uppercase tracking-tight">Formaciones Versus</h1>
           <p className="text-muted-foreground mt-2">Sistema de Gestión de Formación</p>
         </div>
 
@@ -427,7 +427,7 @@ function LoginPage() {
               type="button"
               onClick={() => setIsLogin(true)}
               className={`flex-1 py-3 text-center font-medium rounded-l-sm transition-all ${
-                isLogin ? "bg-emerald-500 text-white" : "bg-secondary text-muted-foreground"
+                isLogin ? "bg-cyan-400 text-white" : "bg-secondary text-muted-foreground"
               }`}
             >
               Iniciar Sesión
@@ -436,7 +436,7 @@ function LoginPage() {
               type="button"
               onClick={() => setIsLogin(false)}
               className={`flex-1 py-3 text-center font-medium rounded-r-sm transition-all ${
-                !isLogin ? "bg-emerald-500 text-white" : "bg-secondary text-muted-foreground"
+                !isLogin ? "bg-cyan-400 text-white" : "bg-secondary text-muted-foreground"
               }`}
             >
               Registrarse
@@ -521,7 +521,7 @@ function DashboardPage() {
   }, []);
 
   if (loading) {
-    return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" /></div>;
+    return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400" /></div>;
   }
 
   return (
@@ -549,7 +549,7 @@ function DashboardPage() {
               const colors = {
                 Principiante: "bg-amber-500",
                 Intermedio: "bg-blue-500",
-                Avanzado: "bg-emerald-500",
+                Avanzado: "bg-cyan-400",
               };
               return (
                 <div key={level}>
@@ -574,8 +574,8 @@ function DashboardPage() {
             <div className="space-y-3">
               {upcoming.map((item) => (
                 <div key={item.id} className="flex items-center gap-3 p-3 bg-background rounded-lg">
-                  <div className="p-2 bg-emerald-500/10 rounded-lg">
-                    <Calendar size={16} className="text-emerald-500" />
+                  <div className="p-2 bg-cyan-400/10 rounded-lg">
+                    <Calendar size={16} className="text-cyan-400" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{item.employee_name}</p>
@@ -685,18 +685,18 @@ function SalonesPage() {
             placeholder="Buscar salón por nombre, dirección o ciudad..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-12 pl-10 pr-4 bg-background border border-input rounded-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+            className="w-full h-12 pl-10 pr-4 bg-background border border-input rounded-sm focus:ring-2 focus:ring-cyan-400 outline-none"
             data-testid="search-salones"
           />
         </div>
         
         {user?.role === "admin" && user?.assigned_salons?.length > 0 && (
-          <label className="flex items-center gap-3 px-4 py-2 bg-card border border-border rounded-sm cursor-pointer hover:border-emerald-500/50 transition-all select-none whitespace-nowrap">
+          <label className="flex items-center gap-3 px-4 py-2 bg-card border border-border rounded-sm cursor-pointer hover:border-cyan-400/50 transition-all select-none whitespace-nowrap">
             <input
               type="checkbox"
               checked={onlyMine}
               onChange={(e) => setOnlyMine(e.target.checked)}
-              className="w-5 h-5 rounded border-input accent-emerald-500"
+              className="w-5 h-5 rounded border-input accent-cyan-400"
               data-testid="only-mine-toggle"
             />
             <span className="text-sm font-medium">Solo mis salones ({user.assigned_salons.length})</span>
@@ -705,7 +705,7 @@ function SalonesPage() {
       </div>
 
       {loading ? (
-        <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" /></div>
+        <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400" /></div>
       ) : filteredSalones.length === 0 ? (
         <EmptyState
           icon={Building2}
@@ -718,12 +718,12 @@ function SalonesPage() {
           {filteredSalones.map((salon) => (
             <div
               key={salon.id}
-              className="bg-card border border-border rounded-lg p-5 hover:border-emerald-500/50 transition-all cursor-pointer group"
+              className="bg-card border border-border rounded-lg p-5 hover:border-cyan-400/50 transition-all cursor-pointer group"
               onClick={() => navigate(`/salones/${salon.id}`)}
             >
               <div className="flex items-start justify-between">
-                <div className="p-2 bg-emerald-500/10 rounded-lg">
-                  <Building2 size={20} className="text-emerald-500" />
+                <div className="p-2 bg-cyan-400/10 rounded-lg">
+                  <Building2 size={20} className="text-cyan-400" />
                 </div>
                 {user?.role === "admin" && (
                   <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -782,7 +782,7 @@ function SalonDetailPage() {
     fetchData();
   }, [id, navigate]);
 
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" /></div>;
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400" /></div>;
 
   return (
     <div data-testid="salon-detail">
@@ -799,7 +799,7 @@ function SalonDetailPage() {
       ) : (
         <div className="grid gap-3">
           {employees.map((emp) => (
-            <div key={emp.id} onClick={() => navigate(`/empleados/${emp.id}`)} className="bg-card border border-border rounded-lg p-4 flex items-center gap-4 hover:border-emerald-500/50 transition-all cursor-pointer">
+            <div key={emp.id} onClick={() => navigate(`/empleados/${emp.id}`)} className="bg-card border border-border rounded-lg p-4 flex items-center gap-4 hover:border-cyan-400/50 transition-all cursor-pointer">
               <div className="p-2 bg-secondary rounded-full">
                 <User size={20} />
               </div>
@@ -900,7 +900,7 @@ function EmpleadosPage() {
             placeholder="Buscar empleado..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-12 pl-10 pr-4 bg-background border border-input rounded-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+            className="w-full h-12 pl-10 pr-4 bg-background border border-input rounded-sm focus:ring-2 focus:ring-cyan-400 outline-none"
             data-testid="search-employees"
           />
         </div>
@@ -914,13 +914,13 @@ function EmpleadosPage() {
       </div>
 
       {loading ? (
-        <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" /></div>
+        <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400" /></div>
       ) : filteredEmployees.length === 0 ? (
         <EmptyState icon={Users} title="Sin resultados" description="No se encontraron empleados" />
       ) : (
         <div className="grid gap-3">
           {filteredEmployees.map((emp) => (
-            <div key={emp.id} className="bg-card border border-border rounded-lg p-4 flex items-center gap-4 hover:border-emerald-500/50 transition-all group">
+            <div key={emp.id} className="bg-card border border-border rounded-lg p-4 flex items-center gap-4 hover:border-cyan-400/50 transition-all group">
               <div className="p-2 bg-secondary rounded-full cursor-pointer" onClick={() => navigate(`/empleados/${emp.id}`)}>
                 <User size={20} />
               </div>
@@ -994,7 +994,7 @@ function EmpleadoDetailPage() {
     fetchData();
   }, [id, navigate]);
 
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" /></div>;
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400" /></div>;
 
   return (
     <div data-testid="employee-detail">
@@ -1120,17 +1120,17 @@ function FormacionesPage() {
       )}
 
       {loading ? (
-        <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" /></div>
+        <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400" /></div>
       ) : trainings.length === 0 ? (
         <EmptyState icon={GraduationCap} title="Sin formaciones" description="Aún no hay formaciones registradas" />
       ) : (
         <div className="space-y-3">
           {trainings.map((t) => (
-            <div key={t.id} className="bg-card border border-border rounded-lg p-4 hover:border-emerald-500/30 transition-all">
+            <div key={t.id} className="bg-card border border-border rounded-lg p-4 hover:border-cyan-400/30 transition-all">
               <div className="flex items-start justify-between flex-wrap gap-2">
                 <div>
                   <p className="font-medium">{t.employee_name || "Sin nombre"}</p>
-                  <p className="text-sm text-emerald-500">{t.training_type_name || "Sin tipo"}</p>
+                  <p className="text-sm text-cyan-400">{t.training_type_name || "Sin tipo"}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-muted-foreground">
@@ -1268,13 +1268,13 @@ function AccionesPage() {
       )}
 
       {loading ? (
-        <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" /></div>
+        <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400" /></div>
       ) : actions.length === 0 ? (
         <EmptyState icon={Zap} title="Sin acciones" description="Aún no hay acciones registradas" />
       ) : (
         <div className="space-y-3">
           {actions.map((a) => (
-            <div key={a.id} className="bg-card border border-border rounded-lg p-4 hover:border-emerald-500/30 transition-all">
+            <div key={a.id} className="bg-card border border-border rounded-lg p-4 hover:border-cyan-400/30 transition-all">
               <div className="flex items-start justify-between flex-wrap gap-2">
                 <div>
                   <p className="font-medium">{a.salon_name || "Sin salón"}</p>
@@ -1406,7 +1406,7 @@ function AgendaPage() {
       />
 
       {loading ? (
-        <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" /></div>
+        <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400" /></div>
       ) : scheduled.length === 0 ? (
         <EmptyState icon={Calendar} title="Sin programaciones" description="No hay formaciones programadas" />
       ) : (
@@ -1415,7 +1415,7 @@ function AgendaPage() {
             const isPast = s.scheduled_date < today;
             const isToday = s.scheduled_date === today;
             return (
-              <div key={s.id} className={`bg-card border rounded-lg p-4 ${s.completed ? "border-emerald-500/30 opacity-60" : isPast ? "border-destructive/30" : isToday ? "border-amber-500/30" : "border-border"}`}>
+              <div key={s.id} className={`bg-card border rounded-lg p-4 ${s.completed ? "border-cyan-400/30 opacity-60" : isPast ? "border-destructive/30" : isToday ? "border-amber-500/30" : "border-border"}`}>
                 <div className="flex items-start justify-between flex-wrap gap-2">
                   <div>
                     <div className="flex items-center gap-2">
@@ -1424,7 +1424,7 @@ function AgendaPage() {
                       {isToday && !s.completed && <Badge variant="warning">Hoy</Badge>}
                       {isPast && !s.completed && <Badge variant="default">Pendiente</Badge>}
                     </div>
-                    <p className="text-sm text-emerald-500">{s.training_type_name}</p>
+                    <p className="text-sm text-cyan-400">{s.training_type_name}</p>
                     <p className="text-xs text-muted-foreground">{s.salon_name}</p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -1432,7 +1432,7 @@ function AgendaPage() {
                       {new Date(s.scheduled_date + "T00:00:00").toLocaleDateString("es-ES", { weekday: "short", day: "numeric", month: "short" })}
                     </span>
                     {!s.completed && (
-                      <button onClick={() => handleComplete(s.id)} className="p-2 hover:bg-emerald-500/10 text-emerald-500 rounded-lg" title="Marcar completada">
+                      <button onClick={() => handleComplete(s.id)} className="p-2 hover:bg-cyan-400/10 text-cyan-400 rounded-lg" title="Marcar completada">
                         <Check size={16} />
                       </button>
                     )}
@@ -1442,7 +1442,7 @@ function AgendaPage() {
                   </div>
                 </div>
                 {s.notes && <p className="text-sm text-muted-foreground mt-2">{s.notes}</p>}
-                {s.reminder_sent && <p className="text-xs text-emerald-500 mt-1">Recordatorio enviado</p>}
+                {s.reminder_sent && <p className="text-xs text-cyan-400 mt-1">Recordatorio enviado</p>}
               </div>
             );
           })}
@@ -1507,7 +1507,7 @@ function ReportesPage() {
     fetchData();
   }, []);
 
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" /></div>;
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400" /></div>;
 
   return (
     <div data-testid="reportes-page">
@@ -1537,7 +1537,7 @@ function ReportesPage() {
                       <span className="text-muted-foreground">{count} ({percent}%)</span>
                     </div>
                     <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                      <div className="h-full bg-emerald-500 transition-all" style={{ width: `${percent}%` }} />
+                      <div className="h-full bg-cyan-400 transition-all" style={{ width: `${percent}%` }} />
                     </div>
                   </div>
                 );
@@ -1548,7 +1548,7 @@ function ReportesPage() {
 
         <div className="bg-card border border-border rounded-lg p-5">
           <h2 className="font-heading text-lg font-semibold mb-4 uppercase tracking-tight">Este Mes ({monthlyData?.month}/{monthlyData?.year})</h2>
-          <p className="text-3xl font-heading font-bold text-emerald-500">{monthlyData?.total_trainings || 0}</p>
+          <p className="text-3xl font-heading font-bold text-cyan-400">{monthlyData?.total_trainings || 0}</p>
           <p className="text-sm text-muted-foreground">formaciones realizadas</p>
           
           {Object.keys(monthlyData?.daily_breakdown || {}).length > 0 && (
@@ -1557,7 +1557,7 @@ function ReportesPage() {
               <div className="flex gap-1 flex-wrap">
                 {Object.entries(monthlyData?.daily_breakdown || {}).slice(-14).map(([day, count]) => (
                   <div key={day} className="flex flex-col items-center" title={`${day}: ${count} formaciones`}>
-                    <div className={`w-6 h-6 rounded-sm ${count > 0 ? "bg-emerald-500" : "bg-secondary"}`} style={{ opacity: count > 0 ? Math.min(0.3 + (count * 0.2), 1) : 0.3 }} />
+                    <div className={`w-6 h-6 rounded-sm ${count > 0 ? "bg-cyan-400" : "bg-secondary"}`} style={{ opacity: count > 0 ? Math.min(0.3 + (count * 0.2), 1) : 0.3 }} />
                     <span className="text-[8px] text-muted-foreground">{day.split("-")[2]}</span>
                   </div>
                 ))}
@@ -1729,7 +1729,7 @@ function AdminPage() {
     }
   };
 
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" /></div>;
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400" /></div>;
 
   return (
     <div data-testid="admin-page">
@@ -1746,7 +1746,7 @@ function AdminPage() {
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-all ${
-              activeTab === tab.id ? "bg-emerald-500 text-white" : "bg-secondary text-muted-foreground hover:text-foreground"
+              activeTab === tab.id ? "bg-cyan-400 text-white" : "bg-secondary text-muted-foreground hover:text-foreground"
             }`}
           >
             <tab.icon size={18} />
@@ -1768,10 +1768,10 @@ function AdminPage() {
           ) : (
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {trainingTypes.map((type) => (
-                <div key={type.id} className="bg-card border border-border rounded-lg p-4 group hover:border-emerald-500/50 transition-all">
+                <div key={type.id} className="bg-card border border-border rounded-lg p-4 group hover:border-cyan-400/50 transition-all">
                   <div className="flex items-start justify-between">
-                    <div className="p-2 bg-emerald-500/10 rounded-lg">
-                      <GraduationCap size={20} className="text-emerald-500" />
+                    <div className="p-2 bg-cyan-400/10 rounded-lg">
+                      <GraduationCap size={20} className="text-cyan-400" />
                     </div>
                     <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <button onClick={() => { setEditingType(type); setTypeForm({ name: type.name, description: type.description }); setModalOpen(true); }} className="p-2 hover:bg-accent rounded-lg">
@@ -1909,7 +1909,7 @@ function AdminPage() {
             <p className="text-sm text-muted-foreground mb-4">
               Selecciona los salones que coordinas directamente. Esto te permitirá filtrarlos rápidamente.
               <br />
-              <span className="text-emerald-500">Actualmente tienes {currentUser?.assigned_salons?.length || 0} salones asignados.</span>
+              <span className="text-cyan-400">Actualmente tienes {currentUser?.assigned_salons?.length || 0} salones asignados.</span>
             </p>
             <Button onClick={() => { setSelectedUser(currentUser); setSelectedSalons(currentUser?.assigned_salons || []); setAssignModal(true); }} data-testid="assign-my-salons-btn">
               <Building2 size={20} /> Configurar Mis Salones
@@ -1952,7 +1952,7 @@ function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
   
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" /></div>;
+    return <div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400" /></div>;
   }
   
   if (!user) {

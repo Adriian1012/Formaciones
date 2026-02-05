@@ -156,6 +156,36 @@ class AssignSalonsRequest(BaseModel):
     coordinator_id: str
     salon_ids: List[str]
 
+# ============== ACTION MODELS ==============
+
+class ActionTypeCreate(BaseModel):
+    name: str
+    description: Optional[str] = ""
+
+class ActionTypeResponse(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str
+    name: str
+    description: str
+    created_at: str
+
+class ActionCreate(BaseModel):
+    salon_id: str
+    action_type_id: str
+    notes: Optional[str] = ""
+
+class ActionResponse(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str
+    salon_id: str
+    salon_name: Optional[str] = ""
+    action_type_id: str
+    action_type_name: Optional[str] = ""
+    coordinator_id: str
+    coordinator_name: Optional[str] = ""
+    notes: str
+    date: str
+
 class StatsResponse(BaseModel):
     total_employees: int
     total_trainings: int
@@ -163,6 +193,7 @@ class StatsResponse(BaseModel):
     employees_by_level: dict
     trainings_by_type: dict
     upcoming_trainings: int
+    total_actions: int = 0
 
 # ============== HELPERS ==============
 

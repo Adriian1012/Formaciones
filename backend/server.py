@@ -323,9 +323,10 @@ async def create_salon(salon_data: SalonCreate, admin: dict = Depends(require_ad
 @api_router.get("/salons", response_model=List[SalonResponse])
 async def get_salons(user: dict = Depends(get_current_user)):
     query = {}
-    # If coordinator, only show assigned salons
+    # Admin and supervisor see all salons, coordinator only sees assigned
     if user["role"] == "coordinator" and user.get("assigned_salons"):
         query = {"id": {"$in": user["assigned_salons"]}}
+    # supervisor and admin see all (no filter)
     
     salons = await db.salons.find(query, {"_id": 0}).to_list(1000)
     return [SalonResponse(**s) for s in salons]

@@ -310,12 +310,16 @@ async def change_user_role(request: ChangeRoleRequest, admin: dict = Depends(req
 
 @api_router.post("/users/assign-salons", response_model=dict)
 async def assign_salons(request: AssignSalonsRequest, admin: dict = Depends(require_admin)):
+    # Allow admin to assign salons to any user including themselves
     result = await db.users.update_one(
         {"id": request.coordinator_id},
         {"$set": {"assigned_salons": request.salon_ids}}
     )
     if result.modified_count == 0:
-        raise HTTPException(status_code=404, detail="Coordinador no encontrado")
+        # Check if the user exists but salons are the same
+        user = await db.users.find_one({"id": request.coordinator_id})
+        if not user:
+            raise HTTPException(status_code=404, detail="Usuario no encontrado")
     return {"message": "Salones asignados correctamente"}
 
 @api_router.delete("/users/{user_id}", response_model=dict)

@@ -667,7 +667,7 @@ function SalonesPage() {
     <div data-testid="salones-page">
       <PageHeader
         title="Salones"
-        subtitle={`${salones.length} salones registrados`}
+        subtitle={`${filteredSalones.length} de ${salones.length} salones`}
         action={user?.role === "admin" && (
           <Button onClick={() => { setEditingSalon(null); setFormData({ name: "", address: "", city: "Murcia" }); setModalOpen(true); }} data-testid="add-salon-btn">
             <Plus size={20} /> Nuevo Salón
@@ -675,16 +675,31 @@ function SalonesPage() {
         )}
       />
 
-      <div className="relative mb-6">
-        <Search size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-        <input
-          type="text"
-          placeholder="Buscar salón por nombre, dirección o ciudad..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full h-12 pl-10 pr-4 bg-background border border-input rounded-sm focus:ring-2 focus:ring-emerald-500 outline-none"
-          data-testid="search-salones"
-        />
+      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+        <div className="relative flex-1">
+          <Search size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+          <input
+            type="text"
+            placeholder="Buscar salón por nombre, dirección o ciudad..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full h-12 pl-10 pr-4 bg-background border border-input rounded-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+            data-testid="search-salones"
+          />
+        </div>
+        
+        {user?.role === "admin" && user?.assigned_salons?.length > 0 && (
+          <label className="flex items-center gap-3 px-4 py-2 bg-card border border-border rounded-sm cursor-pointer hover:border-emerald-500/50 transition-all select-none whitespace-nowrap">
+            <input
+              type="checkbox"
+              checked={onlyMine}
+              onChange={(e) => setOnlyMine(e.target.checked)}
+              className="w-5 h-5 rounded border-input accent-emerald-500"
+              data-testid="only-mine-toggle"
+            />
+            <span className="text-sm font-medium">Solo mis salones ({user.assigned_salons.length})</span>
+          </label>
+        )}
       </div>
 
       {loading ? (

@@ -600,6 +600,7 @@ function SalonesPage() {
   const [editingSalon, setEditingSalon] = useState(null);
   const [formData, setFormData] = useState({ name: "", address: "", city: "Murcia" });
   const [search, setSearch] = useState("");
+  const [onlyMine, setOnlyMine] = useState(false);
   const navigate = useNavigate();
 
   const fetchSalones = async () => {
